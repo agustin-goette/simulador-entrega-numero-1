@@ -1,62 +1,83 @@
+const registro = [];
+const form = document.getElementById("miFormulario");
+const p = document.getElementById("mensaje");
+let datosId = 1;
 
+form.addEventListener("submit", function (event) {
+   event.preventDefault();
+   const name = document.getElementById("name").value;
+   const email = document.getElementById("email").value;
+
+   const datos = {
+      id: datosId++,
+      name: name,
+      email: email
+   };
+
+
+   registro.push(datos);
+   mostrarDatos();
+   form.reset();
+
+   localStorage.setItem("registro", JSON.stringify(registro));
+   const recuperarDatos = JSON.parse(localStorage.getItem("registro"));
+   console.log(recuperarDatos);
+})
+
+
+
+function mostrarDatos() {
+   p.innerHTML = "";
+   registro.forEach((datos) => {
+      const ver = document.createElement("div");
+
+      ver.innerHTML = `<p><strong>${datos.name} - ${datos.email}</strong></p>`;
+
+      p.appendChild(ver);
+   })
+}
 
 function elegirEquipo() {
-   let bienvenida = alert("bienvenidos");
-   let jugador = prompt("nombre de jugador");
+   function equipos(nombre, ataque, defensa) {
+      this.nombre = nombre;
+      this.ataque = ataque;
+      this.defensa = defensa;
+   }; 
 
-   const opciones = [];
+const opciones = [];
 
-   const equipos =(nombre, ataque, defensa) =>{
-      opciones.push ({
-         nombre: nombre,
-         ataque: ataque,
-         defensa: defensa,
-      });
-   }
+const eleccionEquipo = () => {
+   let listado = `listado de equipos\n`;
 
-   const eleccionEquipo = () =>{
-      let listado = `listado de equipos\n`;
-
-      for(let i=0; i< opciones.length; i++){
-         listado+= `
+   for (let i = 0; i < opciones.length; i++) {
+      listado += `
          - nombre: ${opciones[i].nombre}
          - ataque: ${opciones[i].ataque}
          - defensa: ${opciones[i].defensa}
          `;
-      } 
-      return console.log(listado);
-   };
-
-
-   equipos ("river", 80,75);
-   equipos("real madrid", 92, 90);
-   equipos("milan",85,80);
-   eleccionEquipo();
-
-
-   let elegirEquipo = parseInt(prompt("elegi con numero que equipo seleccionas"));
-
-   if(elegirEquipo>3){
-      alert("ingresa un valor valido, solo hay 3 equipos");
    }
+   return console.log(listado);
+};
 
 
-   if (elegirEquipo === 1){
-      alert("tu equipo es river");
-      console.log("ataque: 80, defensa: 75");
-   }
+opciones.push(new equipos("River",82,80));
+opciones.push(new equipos("Real Madrid",92,90));
+opciones.push(new equipos("Milan",85,80));
+eleccionEquipo();
 
-   if(elegirEquipo === 2){
-      alert("tu equipo es real madrid");
-      console.log("ataque: 92, defensa: 90")
-   }
-
-   if(elegirEquipo=== 3){
-      alert("tu equipo es el milan");
-      console.log("ataque:85, defensa:80")
-   }
    
+
+
+const elegirEquipo =  [
+   {nombre : "river plate", ataque: 82, defensa:80},
+   {nombre:"real madrid", ataque:92, defensa:90},
+   {nombre: "milan" , ataque:85, defensa:80},
+];
+
+const listadoEquipo = elegirEquipo.map((el)=>el.nombre);
+console.log(listadoEquipo);
+
+
 }
 
 elegirEquipo();
-
